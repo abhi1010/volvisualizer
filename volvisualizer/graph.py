@@ -79,7 +79,7 @@ class Graph():
         opt_dict['tenors'] = []
         # For each expiry date
         for exp_date, tenor in tenor_date_dict.items():
-            # Create a dictionary of strikes, vols & label 
+            # Create a dictionary of strikes, vols & label
             data = {}
             data['strikes'] = np.array(tables['imp_vol_data'][
                 tables['imp_vol_data']['TTM']==tenor]['Strike'])
@@ -102,11 +102,11 @@ class Graph():
                     label=str(exp_date)+' Expiry')
 
         opt_dict = cls._create_opt_labels(
-            params=params, 
-            opt_dict=opt_dict, 
+            params=params,
+            opt_dict=opt_dict,
             output='line'
             )
-        
+
         if params['show_graph']:
             plt.grid(True)
 
@@ -133,7 +133,7 @@ class Graph():
             fig.subplots_adjust(top=0.9)
 
             # Display graph
-            plt.show()
+            # plt.show()
 
         if params['save_image']:
             # save the image as a png file
@@ -188,8 +188,8 @@ class Graph():
 
         # Create figure and axis objects and format
         opt_dict = cls._create_opt_labels(
-            params=params, 
-            opt_dict=opt_dict, 
+            params=params,
+            opt_dict=opt_dict,
             output='mpl'
             )
 
@@ -210,7 +210,7 @@ class Graph():
         # colormap 'viridis'
         if params['show_graph']:
             fig, ax = cls._graph_format(params=params, opt_dict=opt_dict)
-            
+
             ax.scatter3D(opt_dict['strikes'], opt_dict['ttms'], opt_dict['vols'], c=opt_dict['vols'], cmap='viridis')
 
         if params['save_image']:
@@ -224,7 +224,7 @@ class Graph():
                 'opt_dict': opt_dict
             }
             return data_dict
-                  
+
         return params, tables
 
 
@@ -366,7 +366,7 @@ class Graph():
                 opt_dict = cls._spline_graph(params=params, tables=tables, opt_dict=opt_dict)
 
             elif params['surfacetype'] in [
-                'interactive_mesh', 
+                'interactive_mesh',
                 'interactive_spline']:
                 opt_dict = cls._interactive_graph(params=params, tables=tables, opt_dict=opt_dict)
 
@@ -390,17 +390,17 @@ class Graph():
 
     @classmethod
     def _trisurf_graph(
-        cls,               
-        params: dict, 
+        cls,
+        params: dict,
         opt_dict: dict) -> tuple[mplfig.Figure, dict] | dict:
 
         # Create figure and axis objects and format
         opt_dict = cls._create_opt_labels(
-            params=params, 
-            opt_dict=opt_dict, 
+            params=params,
+            opt_dict=opt_dict,
             output='mpl'
             )
-        
+
         opt_dict['strikes'] = np.array(params['x'])
         opt_dict['ttms'] = np.array(params['y'])
         opt_dict['vols'] = np.array(params['z'])
@@ -418,12 +418,12 @@ class Graph():
             return fig, opt_dict
 
         return opt_dict
-    
+
 
     @classmethod
     def _mesh_graph(
-        cls, 
-        params: dict, 
+        cls,
+        params: dict,
         opt_dict: dict) ->  tuple[mplfig.Figure, dict] | dict:
 
         # Create arrays across x and y-axes of equally spaced points
@@ -445,8 +445,8 @@ class Graph():
 
         # Create figure and axis objects and format
         opt_dict = cls._create_opt_labels(
-            params=params, 
-            opt_dict=opt_dict, 
+            params=params,
+            opt_dict=opt_dict,
             output='mpl'
             )
 
@@ -503,10 +503,10 @@ class Graph():
 
         # Create figure and axis objects and format
         opt_dict = cls._create_opt_labels(
-            params=params, 
-            opt_dict=opt_dict, 
+            params=params,
+            opt_dict=opt_dict,
             output='mpl'
-            )    
+            )
 
         opt_dict['strikes'] = np.array(params['x'])
         opt_dict['ttms'] = np.array(params['y'])
@@ -531,7 +531,7 @@ class Graph():
                 ax.scatter3D(params['x'], params['y'], params['z'], c='r')
 
             return fig, opt_dict
-        
+
         return opt_dict
 
 
@@ -587,9 +587,9 @@ class Graph():
             params['z2'] = spline(params['x2'], params['y2'])
 
         opt_dict = cls._create_opt_labels(
-            params=params, 
-            opt_dict=opt_dict, 
-            output='plotly')  
+            params=params,
+            opt_dict=opt_dict,
+            output='plotly')
 
         opt_dict['strikes'] = np.array(tables['data_3D']['Strike'])
         opt_dict['ttms'] = np.array(tables['data_3D']['TTM'] * 365)
@@ -611,8 +611,8 @@ class Graph():
 
             # Format the chart layout
             fig = cls._int_layout(
-                params=params, 
-                fig=fig, 
+                params=params,
+                fig=fig,
                 opt_dict=opt_dict
                 )
 
@@ -857,29 +857,29 @@ class Graph():
                 't':90
                 },
             scene_camera=params['camera'])
-             
+
         return fig
 
 
     @staticmethod
     def _create_opt_labels(
-        params: dict, 
+        params: dict,
         opt_dict: dict,
         output: str) -> dict:
 
         if output == 'mpl':
-            # Add labels to option dictionary  
+            # Add labels to option dictionary
             opt_dict['x_label'] = 'Strike'
             opt_dict['y_label'] = 'Time to Expiration (Days)'
             opt_dict['z_label'] = 'Implied Volatility %'
-            
+
 
         elif output == 'line':
             opt_dict['x_label'] = 'Strike'
             opt_dict['y_label'] = 'Implied Volatility %'
             opt_dict['legend_title'] = 'Option Expiry'
 
-        else: 
+        else:
             opt_dict['x_label'] = 'Time to Expiration (Days)'
             opt_dict['y_label'] = 'Strike'
             opt_dict['z_label'] = 'Implied Volatility %'
@@ -890,14 +890,14 @@ class Graph():
             +str(params['voltype'].title())
             +' Price '
             +str(params['start_date'])
-            )    
+            )
 
         return opt_dict
 
 
     @staticmethod
     def _graph_format(
-        params: dict, 
+        params: dict,
         opt_dict: dict) -> tuple[mplfig.Figure, axes.Axes]:
 
         # Update chart parameters
@@ -958,14 +958,14 @@ class Graph():
     def _image_save(
         params: dict,
         fig: mplfig.Figure | go.Figure) -> mplfig.Figure | go.Figure:
-
+        dir_to_save_into = f'{params["image_folder"]}/{params["ticker_label"]}'
         # Create image folder if it does not already exist
-        if not os.path.exists(params['image_folder']):
-            os.makedirs(params['image_folder'])
+        if not os.path.exists(dir_to_save_into):
+            os.makedirs(dir_to_save_into)
 
         # save the image as a png file
         plt.savefig('{}/{}{}.png'.format(
-            params['image_folder'], params['ticker_label'],
+            dir_to_save_into, params['ticker_label'],
             params['start_date']), dpi=params['image_dpi'])
 
         return fig

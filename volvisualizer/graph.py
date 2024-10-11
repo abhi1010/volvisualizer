@@ -2,6 +2,7 @@
 Methods for graphing volatility data
 
 """
+import datetime
 import copy
 import os
 import warnings
@@ -960,12 +961,13 @@ class Graph():
         fig: mplfig.Figure | go.Figure) -> mplfig.Figure | go.Figure:
         dir_to_save_into = f'{params["image_folder"]}/{params["ticker_label"]}'
         # Create image folder if it does not already exist
+        time_in_hh_mm = datetime.datetime.now().strftime('%H-%M')
         if not os.path.exists(dir_to_save_into):
             os.makedirs(dir_to_save_into)
 
         # save the image as a png file
-        plt.savefig('{}/{}{}.png'.format(
+        plt.savefig('{}/{}-{}__{}.png'.format(
             dir_to_save_into, params['ticker_label'],
-            params['start_date']), dpi=params['image_dpi'])
+            params['start_date'], time_in_hh_mm), dpi=params['image_dpi'])
 
         return fig
